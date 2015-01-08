@@ -1,0 +1,49 @@
+#!/usr/bin/env zsh
+
+D8_PROFILING_FLAGS=(--prof --log-timer-events --use_strict)
+
+# --trace-ic
+# --trace-gc
+# --trace-js-array-abuse  # trace out-of-bounds accesses to JS arrays
+# --escape_analysis_iterations  # max number of escape analysis fix-point iterations
+# --trace_escape_analysis  # trace hydrogen escape analysis
+# --hydrogen_stats  # print stats for hydrogen
+#
+# --harmony  # enable all harmony features (such as arrow functions, object literal extensions, scoping, etc.)
+# --es_staging  # enable upcoming ES6+ features
+
+
+# Ref: http://mrale.ph/irhydra/2/
+HYDRA_FLAGS=()
+HYDRA_FLAGS=($HYDRA_FLAGS --print-opt-code --print-code-verbose)  # Print disassembly every time a function is optimized.
+HYDRA_FLAGS=($HYDRA_FLAGS --trace-hydrogen)  # Produce hydrogen.cfg containing high+low level intermediate represenations.
+HYDRA_FLAGS=($HYDRA_FLAGS --trace-phase=Z)  # Only dump IR from the very last phase.
+HYDRA_FLAGS=($HYDRA_FLAGS --trace-deopt)  # Log every deoptimization.
+HYDRA_FLAGS=($HYDRA_FLAGS --code-comments)  # Add comments to generated code.
+HYDRA_FLAGS=($HYDRA_FLAGS --hydrogen-track-positions)  # Precise tracking of source position during optimizations.
+# HYDRA_FLAGS=($HYDRA_FLAGS --redirect-code-traces)  # Log disassembly, source dumps and deopt logs to code.asm instead of stdout.  Override wsith --redirect-code-traces-to
+# HYDRA_FLAGS=($HYDRA_FLAGS --redirect-code-traces-to FILE.ASM)  # Log disassembly, source dumps and deopt logs to a file specified instead of stdout
+
+
+D8_FLAGS=(--trace-opt-verbose --trace-deopt --trace-inlining --allow-natives-syntax $D8_PROFILING_FLAGS $HYDRA_FLAGS)
+
+
+run() {(
+  src=$1
+  d8 $D8_FLAGS --redirect-code-traces --redirect-code-traces-to=$src.asm $src.js
+  # d8 $D8_FLAGS $src.js
+  mv hydrogen.cfg $src.hydrogen.cfg
+  mv v8.log $src.v8.log
+  true || (
+    v8-plot-timer-events ./$src.v8.log
+    mv timer-events.png $src.timer-events.png
+  ) &
+  true || v8-tick-processor ./$src.v8.log > $src.ticks.log &
+  wait
+  print $'\n'
+)}
+
+set -vxe
+
+run main
+# run main_no_opt

@@ -1,0 +1,67 @@
+Statistical profiling result from ./main_no_opt.v8.log, (63 ticks, 0 unaccounted, 0 excluded).
+
+ [Shared libraries]:
+   ticks  total  nonlib   name
+      1    1.6%          /usr/lib/system/libsystem_c.dylib
+
+ [JavaScript]:
+   ticks  total  nonlib   name
+      1    1.6%    1.6%  Stub: StringAddStub
+      1    1.6%    1.6%  Script: ~main_no_opt.js
+
+ [C++]:
+   ticks  total  nonlib   name
+     57   90.5%   91.9%  start
+      2    3.2%    3.2%  _malloc_jumpstart
+      1    1.6%    1.6%  _mach_vm_map
+
+ [Summary]:
+   ticks  total  nonlib   name
+      2    3.2%    3.2%  JavaScript
+     60   95.2%   96.8%  C++
+      0    0.0%    0.0%  GC
+      1    1.6%          Shared libraries
+
+ [Bottom up (heavy) profile]:
+  Note: percentage shows a share of a particular caller in the total
+  amount of its parent calls.
+  Callers occupying less than 2.0% are not shown.
+
+   ticks parent  name
+     57   90.5%  start
+     13   22.8%    LazyCompile: ADD native runtime.js:99:13
+      7   53.8%      LazyCompile: ~test main_no_opt.js:3:14
+      7  100.0%        Script: ~main_no_opt.js
+      6   46.2%      LazyCompile: *<anonymous> main_no_opt.js:1:1
+      7   12.3%    LazyCompile: ~Instantiate native apinatives.js:10:21
+      4   57.1%      LazyCompile: ~Instantiate native apinatives.js:10:21
+      4  100.0%        LazyCompile: ~Instantiate native apinatives.js:10:21
+      2   28.6%      LazyCompile: ConfigureTemplateInstance native apinatives.js:63:35
+      2  100.0%        LazyCompile: ~Instantiate native apinatives.js:10:21
+      1   50.0%          LazyCompile: ~Instantiate native apinatives.js:10:21
+      1   50.0%          LazyCompile: ConfigureTemplateInstance native apinatives.js:63:35
+      1  100.0%            LazyCompile: ~Instantiate native apinatives.js:10:21
+      5    8.8%    Script: ~main_no_opt.js
+      5    8.8%    Script: ~<anonymous> main_no_opt.js:1:1
+      4    7.0%    LazyCompile: ConfigureTemplateInstance native apinatives.js:63:35
+      4  100.0%      LazyCompile: ~Instantiate native apinatives.js:10:21
+      2   50.0%        LazyCompile: ~Instantiate native apinatives.js:10:21
+      2   50.0%        LazyCompile: ConfigureTemplateInstance native apinatives.js:63:35
+      2  100.0%          LazyCompile: ~Instantiate native apinatives.js:10:21
+      1   50.0%            LazyCompile: ~Instantiate native apinatives.js:10:21
+      3    5.3%    LazyCompile: ~random native math.js:90:20
+      3  100.0%      Script: ~main_no_opt.js
+      2    3.5%    LazyCompile: EQUALS native runtime.js:9:16
+      2  100.0%      LazyCompile: ~Instantiate native apinatives.js:10:21
+      1   50.0%        LazyCompile: ~Instantiate native apinatives.js:10:21
+      1   50.0%        LazyCompile: ConfigureTemplateInstance native apinatives.js:63:35
+      1  100.0%          LazyCompile: ~Instantiate native apinatives.js:10:21
+
+      2    3.2%  _malloc_jumpstart
+      1   50.0%    Script: ~<anonymous> main_no_opt.js:1:1
+      1   50.0%    LazyCompile: IN native runtime.js:204:12
+      1  100.0%      LazyCompile: ~Instantiate native apinatives.js:10:21
+      1  100.0%        LazyCompile: ConfigureTemplateInstance native apinatives.js:63:35
+      1  100.0%          LazyCompile: ~Instantiate native apinatives.js:10:21
+      1  100.0%            LazyCompile: ConfigureTemplateInstance native apinatives.js:63:35
+
